@@ -7,6 +7,7 @@
 	$( "#create-table" ).on("click", function(e){
 		e.preventDefault();
 		createTable();
+		//createCurve();
 	});
     
 	$(document).on( "click",".edit_table_click", function(e) {
@@ -35,7 +36,29 @@
 		$( "#graph" ).after(tableBody);
 		$( ".entity-table" ).draggable({
 				cursor: 'move',
+				stop: function(){
+						var offset = $(this).offset();
+						var xPos = offset.left;
+						var yPos = offset.top;
+						createCurve(xPos,yPos)
+                }
 		 });
 	}
+	
+	/**
+	 * Function to create a beizer create
+	 **/
+	 function createCurve(xPos,yPos)
+	 {
+		canvas = document.getElementById("graph");
+		ctx = canvas.getContext("2d")
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = "#333";
+		ctx.beginPath();
+        ctx.moveTo(xPos,yPos+50);
+		ctx.bezierCurveTo(150, 100, 350, 100, 400, 250);
+        ctx.stroke();
+		
+	 }
   
   });
