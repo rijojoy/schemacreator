@@ -1,0 +1,156 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/style.css" />
+	<link href="js/jquery-ui/jquery-ui.css" rel="stylesheet">
+	<title>SchemaDesigner</title>
+	<!--[if lt IE 9]>
+		<script src="/static/js/lib/excanvas.js" type="text/javascript"></script>
+	<![endif]-->
+</head>
+<body>
+<div id="create-table-html" style="display:none;">
+<table class="entity-table ui-draggable" style="position: absolute; left: 321px; top: 96px; z-index: 13; opacity: 1;">
+<thead>
+	<tr class="caption">
+		<th colspan="2" class="table_name">Untitled</th>
+		<th class="table_ops">
+			<a href="#" class="edit_table_click"> 
+			<img src="img/tbl_edit_ico.png" class="edit_table">
+			</a>
+		</th>
+	</tr>
+	<tr class="comment" style="display:none;">
+        <th class="table-comment" colspan="4"></th>
+    </tr>
+	
+	<tr class="edit-table" style="display: none;">
+      <th colspan="4">
+        <span class="dummy dummy-down" tabindex="0"></span>
+        <label for="table-name">Table Name</label>
+        <input type="text" name="table-name" value="Untitled" class="table-name">
+        <br>
+        <label for="table-comment">Table Comment</label>
+        <textarea class="table-comment" rows="4"></textarea>
+        <br>
+        <br>
+        <input type="button" value="Save" class="save-edit-table btn">
+        <span class="action cancel-edit-table" tabindex="0">Cancel</span>
+        <span class="action delete-table danger" tabindex="0">Delete Table</span>
+        <span class="dummy dummy-up" tabindex="0"></span>
+      </th>
+    </tr>
+</thead>
+<tfoot>
+	<tr>
+		<td colspan="3">
+			<div class="pane1">
+				<img src="img/add_field_ico.png">
+				<span class="add_field">Add field</span>
+			</div>
+			<div class="pane2" style="display: none">
+				<label class="a_left">Name:</label>
+				<input type="text" value="" class="edit_name"><br>
+				<label class="a_left">Type:</label>
+				<select class="datatypes">
+				<option value="100">int</option><option value="101">tinyint</option><option value="102">smallint</option><option value="103">mediumint</option><option value="104">bigint</option><option value="105">float</option><option value="106">double</option><option value="107">decimal</option><option value="108">bit</option><option value="109">char</option><option value="110">varchar</option><option value="111">tinytext</option><option value="112">text</option><option value="113">mediumtext</option><option value="114">longtext</option><option value="115">binary</option><option value="116">varbinary</option><option value="117">tinyblob</option><option value="118">blob</option><option value="119">mediumblob</option><option value="120">longblob</option><option value="121">enum</option><option value="122">set</option><option value="123">date</option><option value="124">datetime</option><option value="125">time</option><option value="126">timestamp</option><option value="127">year</option></select><br>
+				<label class="a_left">Size:</label>
+				<input type="text" value="" class="edit_size"><br>
+				<label><input type="checkbox" class="pk"> Primary key</label><br>
+				<label><input type="checkbox" class="fk"> Foreign key</label><br>
+				<div class="foreignkey_info" style="display: none">
+					<label class="b_left">Foreign Table:</label>
+					<select class="fk_tables">
+					</select><br>
+					<label class="b_left">Foreign Field:</label>
+					<select class="fk_fields">
+					<option value=""></option><option value="gyt">gyt</option></select><br>
+				</div>
+				<br>
+				<span class="insert_save">Save</span>
+				<span class="insert_cancel">Cancel</span>
+			</div>
+		</td>
+	</tr>
+</tfoot>
+<tbody class="ui-sortable">
+</tbody>
+</table>
+</div>
+
+<a href="#" id="create-table">Create Table</a>
+	<canvas id="graph" width="3840" height="2400"></canvas>
+
+	<div id="toolbar" style="display: none">
+		<ul id="menu">
+			<li>
+			Schema
+			<ul class="submenu">
+				<li id="menu-item-schema-new">New</li>
+				<li id="menu-item-schema-load">Load</li>
+				<li id="menu-item-schema-save">Save<span class="accel">(first login)</span></li>
+				<li class="menu-seperator">&nbsp;</li>
+				<li id="menu-item-schema-properties">Properties</li>
+			</ul>
+			</li>
+			<li>
+			Insert
+			<ul class="submenu">
+				<li id="menu-item-insert-table">Table<span class="accel">Alt+T</span></li>
+				<li id="menu-item-insert-note">Note<span class="accel">Alt+N</span></li>
+			</ul>
+			</li>
+			<li>
+			View
+			<ul class="submenu">
+				<li id="menu-item-view-sort">Sort</li>
+				<li id="menu-item-view-collapse">Collapse</li>
+				<li class="menu-seperator">&nbsp;</li>
+				<li id="menu-item-view-line" class="has-submenu">
+				Line type
+				<ul class="submenu">
+					<li id="menu-item-view-line-bezier">Bezier</li>
+					<li id="menu-item-view-line-cornered">Cornered</li>
+				</ul>
+				</li>
+			</ul>
+			</li>
+			<li>
+			Share
+			<ul class="submenu">
+				<li id="menu-item-share-permalink">Permalink</li>
+			</ul>
+			</li>
+			<li>
+			Export
+			<ul class="submenu">
+				<li id="menu-item-export-sql">Sql<span class="accel">Alt+S</span></li>
+				<li id="menu-item-export-image">Image</li>
+			</ul>
+			</li>
+			<li>
+			Help
+			<ul class="submenu">
+				<!--
+				<li id="menu-item-help-contents">Contents</li>
+				-->
+				<li id="menu-item-help-feedback">Feedback</li>
+				<li class="menu-seperator">&nbsp;</li>
+				<li id="menu-item-help-about">About</li>
+			</ul>
+			</li>
+		</ul>
+		<div id="userbar">
+			
+		</div>
+	</div>
+	<div id="minimap" style="display: none">
+		<div id="mmvp"></div>
+	</div>
+<script src="js/jquery-ui/external/jquery/jquery.js"></script>
+<script src="js/jquery-ui/jquery-ui.js"></script>
+<script src="js/script.js"></script>	
+</body>
+</html>
